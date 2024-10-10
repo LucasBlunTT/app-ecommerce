@@ -15,9 +15,7 @@ export default function Index() {
             className="w-12 h-12 rounded-full"
           />
           <View className="flex-row gap-1">
-            <Text className="text-2xl color-white color-grayPrimary font-bold">
-              Oi,
-            </Text>
+            <Text className="text-2xl color-grayPrimary font-bold">Oi,</Text>
             <Text className="text-2xl color-white font-bold">Lucas</Text>
           </View>
         </View>
