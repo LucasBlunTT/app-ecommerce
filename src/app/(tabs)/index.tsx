@@ -57,6 +57,7 @@ export default function Index() {
             keyExtractor={(item) => item.nomeProduto}
             contentContainerStyle={{
               gap: 10,
+              padding: 10,
             }}
           />
         </View>
