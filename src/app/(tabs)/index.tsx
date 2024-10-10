@@ -1,5 +1,8 @@
+import Product from '@/components/product/product';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Image, Text, TextInput, View } from 'react-native';
+import { FlatList, Image, Text, TextInput, View } from 'react-native';
+import { produtos } from '@/utils/produtos';
+
 export default function Index() {
   return (
     <View className="flex-1 bg-bgHome pt-14 p-4">
@@ -35,6 +38,28 @@ export default function Index() {
           className="w-full text-white ml-2"
           cursorColor={'#878787'}
         />
+      </View>
+      <View className="w-full mt-5">
+        <Text className="text-xl font-bold color-grayPrimary mb-4">
+          Mais Vendidos
+        </Text>
+
+        <View>
+          <FlatList
+            className="w-full h-[82%]"
+            data={produtos}
+            renderItem={({ item }) => (
+              <Product
+                nomeProduto={item.nomeProduto}
+                precoProduto={item.precoProduto}
+              />
+            )}
+            keyExtractor={(item) => item.nomeProduto}
+            contentContainerStyle={{
+              gap: 10,
+            }}
+          />
+        </View>
       </View>
     </View>
   );

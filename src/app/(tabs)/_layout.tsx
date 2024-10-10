@@ -1,3 +1,4 @@
+import { colors } from '@/styles/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 
@@ -7,24 +8,22 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          //backgroundColor: colors.white, // Cor de fundo escura da aba
+          backgroundColor: colors.graySecondary,
           borderTopWidth: 0,
-          minHeight: 74,
         },
         tabBarItemStyle: {
-          paddingBottom: 34,
-          paddingTop: 14,
+          paddingBottom: 5,
         },
         tabBarShowLabel: false,
-       // tabBarActiveTintColor: colors.blue, // Cor dos ícones ativos (azul, harmonizando)
-       // tabBarInactiveTintColor: colors.gray[800], // Cor dos ícones inativos (cinza, harmonizando)
+        tabBarActiveTintColor: colors.bgBtn,
+        tabBarInactiveTintColor: colors.grayPrimary,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
           tabBarIcon: ({ size, color }) => (
-            <MaterialIcons name="message" size={size} color={color} />
+            <MaterialIcons name="shopping-cart" size={size} color={color} />
           ),
         }}
       />
