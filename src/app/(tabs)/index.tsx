@@ -1,4 +1,5 @@
-import { Image, Text, View } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Image, Text, TextInput, View } from 'react-native';
 export default function Index() {
   return (
     <View className="flex-1 bg-bgHome pt-14 p-4">
@@ -17,6 +18,23 @@ export default function Index() {
             <Text className="text-2xl color-white font-bold">Lucas</Text>
           </View>
         </View>
+      </View>
+      <View className="w-full items-end mb-4">
+        <Text className="text-2xl font-bold color-grayPrimary">Podutos</Text>
+      </View>
+      <View className="w-full flex-row bg-[#242424] rounded-2xl p-2 items-center justify-center">
+        <MaterialCommunityIcons
+          name="magnify"
+          size={18}
+          color="#878787"
+          className="ml-9"
+        />
+        <TextInput
+          placeholder="Buscar Produtos"
+          placeholderTextColor={'#878787'}
+          className="w-full text-white ml-2"
+          cursorColor={'#878787'}
+        />
       </View>
     </View>
   );
