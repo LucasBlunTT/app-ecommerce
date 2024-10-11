@@ -32,7 +32,7 @@ Este projeto é um aplicativo de filtragem de produtos desenvolvido em React Nat
 ## 🛠️ Como Usar
 1. **Clone o Repositório**: 
    ```bash
-   git clone https://github.com/seu-usuario/filtro-produtos-carrinho.git
-   cd filtro-produtos-carrinho
+   git clone https://github.com/LucasBlunTT/app-ecommerce.git
+   cd app-ecommerce
    npm install
    npx expo start
