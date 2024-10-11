@@ -1,15 +1,33 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { CartContext } from '@/context/CartContext';
 
 interface ProductProps {
   nomeProduto: string;
-  precoProduto: string;
+  precoProduto: string | number;
 }
 
 export default function Product({ nomeProduto, precoProduto }: ProductProps) {
+  const cartContext = useContext(CartContext); // Use o contexto do carrinho
+
+  if (!cartContext) {
+    throw new Error('CartContext must be used within a CartProvider');
+  }
+
+  const { addToCart } = cartContext;
+
   const handleAddToCart = () => {
-    // Lógica para adicionar o produto ao carrinho
+    const product = {
+      id: Math.random(), // Id único para o produto, pode ser melhorado
+      name: nomeProduto,
+      price:
+        typeof precoProduto === 'string'
+          ? parseFloat(precoProduto.replace('R$', '').trim())
+          : precoProduto, // Convertendo para número
+    };
+
+    addToCart(product); // Adiciona o produto ao carrinho
     console.log(`${nomeProduto} adicionado ao carrinho`);
   };
 

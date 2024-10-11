@@ -2,8 +2,29 @@ import Product from '@/components/product/product';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FlatList, Image, Text, TextInput, View } from 'react-native';
 import { produtos } from '@/utils/produtos';
+import { useState } from 'react';
 
 export default function Index() {
+  interface Product {
+    nomeProduto: string;
+    precoProduto: number | string;
+  }
+
+  const [productsFiltered, setProductsFiltered] = useState<Product[]>(produtos);
+  const [textProduct, setTextProduct] = useState('');
+
+  function filterProducts(text: string) {
+    setTextProduct(text);
+    if (text) {
+      const filteredProducts = produtos.filter((product) =>
+        product.nomeProduto.toLowerCase().includes(text.toLowerCase())
+      );
+      setProductsFiltered(filteredProducts);
+    } else {
+      setProductsFiltered(produtos); // Mostrar todos os produtos quando não há busca
+    }
+  }
+
   return (
     <View className="flex-1 bg-bgHome pt-14 p-4">
       <View className="w-full h-10 items-start">
@@ -21,7 +42,7 @@ export default function Index() {
         </View>
       </View>
       <View className="w-full items-end mb-4">
-        <Text className="text-2xl font-bold color-grayPrimary">Podutos</Text>
+        <Text className="text-2xl font-bold color-grayPrimary">Produtos</Text>
       </View>
       <View className="w-full flex-row bg-[#242424] rounded-2xl p-2 items-center justify-center">
         <MaterialCommunityIcons
@@ -35,6 +56,8 @@ export default function Index() {
           placeholderTextColor={'#878787'}
           className="w-full text-white ml-2"
           cursorColor={'#878787'}
+          value={textProduct}
+          onChangeText={filterProducts}
         />
       </View>
       <View className="w-full mt-5">
@@ -45,7 +68,7 @@ export default function Index() {
         <View>
           <FlatList
             className="w-full h-[82%]"
-            data={produtos}
+            data={productsFiltered}
             renderItem={({ item }) => (
               <Product
                 nomeProduto={item.nomeProduto}
