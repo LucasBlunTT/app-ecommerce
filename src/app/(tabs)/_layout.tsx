@@ -23,6 +23,14 @@ export default function TabLayout() {
         name="index"
         options={{
           tabBarIcon: ({ size, color }) => (
+            <MaterialIcons name="view-list" size={size} color={color} />
+          ),
+        }}
+      />
+        <Tabs.Screen
+        name="carrinho"
+        options={{
+          tabBarIcon: ({ size, color }) => (
             <MaterialIcons name="shopping-cart" size={size} color={color} />
           ),
         }}
