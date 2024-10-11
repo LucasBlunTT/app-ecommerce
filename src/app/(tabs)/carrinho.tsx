@@ -1,65 +1,86 @@
-import Product from '@/components/product/product';
+import React, { useContext } from 'react';
+import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
+import { CartContext } from '@/context/CartContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { FlatList, Image, Text, TextInput, View } from 'react-native';
-import { produtos } from '@/utils/produtos';
 
 export default function Carrinho() {
+  const cartContext = useContext(CartContext);
+
+  if (!cartContext) {
+    throw new Error('CartContext must be used within a CartProvider');
+  }
+
+  const { cartItems, removeFromCart, getTotalPrice, clearCart } = cartContext;
+
+  const handleRemoveFromCart = (itemId: number) => {
+    removeFromCart(itemId);
+    console.log(`Produto com id ${itemId} removido do carrinho`);
+  };
+
   return (
     <View className="flex-1 bg-bgHome pt-14 p-4">
-      <View className="w-full h-10 items-start">
-        <View className="flex-row items-center justify-center gap-4">
-          <Image
-            source={{
-              uri: 'https://avatars.githubusercontent.com/u/83377646?s=400&u=22f31e7a0d7deeaad2f29f34c8701a5f2ee359f7&v=4',
-            }}
-            className="w-12 h-12 rounded-full"
-          />
-          <View className="flex-row gap-1">
-            <Text className="text-2xl color-grayPrimary font-bold">Oi,</Text>
-            <Text className="text-2xl color-white font-bold">Lucas</Text>
-          </View>
-        </View>
-      </View>
-      <View className="w-full items-end mb-4">
-        <Text className="text-2xl font-bold color-grayPrimary">Podutos</Text>
-      </View>
-      <View className="w-full flex-row bg-[#242424] rounded-2xl p-2 items-center justify-center">
-        <MaterialCommunityIcons
-          name="magnify"
-          size={18}
-          color="#878787"
-          className="ml-9"
-        />
-        <TextInput
-          placeholder="Buscar Produtos"
-          placeholderTextColor={'#878787'}
-          className="w-full text-white ml-2"
-          cursorColor={'#878787'}
-        />
-      </View>
-      <View className="w-full mt-5">
-        <Text className="text-xl font-bold color-grayPrimary mb-4">
-          Mais Vendidos
-        </Text>
+      <Text className="text-2xl font-bold color-grayPrimary mb-4">
+        Seu Carrinho
+      </Text>
 
-        <View>
+      {cartItems.length === 0 ? (
+        <Text className="text-lg color-white">O carrinho está vazio.</Text>
+      ) : (
+        <>
           <FlatList
-            className="w-full h-[82%]"
-            data={produtos}
+            data={cartItems}
             renderItem={({ item }) => (
-              <Product
-                nomeProduto={item.nomeProduto}
-                precoProduto={item.precoProduto}
-              />
+              <View className="w-full bg-[#242424] rounded-2xl p-4 mb-4">
+                {item.image && (
+                  <Image
+                    source={{ uri: item.image }}
+                    className="rounded-2xl h-200 w-full"
+                    resizeMode="contain"
+                  />
+                )}
+                <Text className="text-lg font-bold color-white mt-2">
+                  {item.name}
+                </Text>
+                <Text className="text-lg font-bold color-white">
+                  R$ {item.price.toFixed(2)}
+                </Text>
+
+                {/* Botão Remover do Carrinho */}
+                <TouchableOpacity
+                  onPress={() => handleRemoveFromCart(item.id)}
+                  className="bg-red-600 p-2 rounded-lg mt-4 flex-row items-center justify-center"
+                >
+                  <MaterialCommunityIcons
+                    name="cart-remove"
+                    size={20}
+                    color="white"
+                  />
+                  <Text className="text-white ml-2">Remover</Text>
+                </TouchableOpacity>
+              </View>
             )}
-            keyExtractor={(item) => item.nomeProduto}
+            keyExtractor={(item) => item.id.toString()}
             contentContainerStyle={{
               gap: 10,
-              padding: 10,
             }}
           />
-        </View>
-      </View>
+
+          <View className="w-full mt-5">
+            <Text className="text-xl font-bold color-grayPrimary">
+              Total: R$ {getTotalPrice().toFixed(2)}
+            </Text>
+
+            {/* Botão Limpar Carrinho */}
+            <TouchableOpacity
+              onPress={clearCart}
+              className="bg-red-600 p-4 rounded-lg mt-4 flex-row items-center justify-center"
+            >
+              <MaterialCommunityIcons name="cart-off" size={24} color="white" />
+              <Text className="text-white ml-2">Limpar Carrinho</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
     </View>
   );
 }
